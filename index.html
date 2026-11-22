@@ -26,6 +26,12 @@ h1,h2{font-family:"Barlow Condensed",Barlow,sans-serif;font-weight:700;line-heig
 h1{font-size:clamp(40px,5.4vw,56px)}
 h2{font-size:clamp(26px,3vw,34px)}
 .top{background:var(--blue);color:#fff;padding-bottom:clamp(28px,3.4vw,48px)}
+.bar{display:flex;justify-content:flex-end;margin:-8px 0 14px}
+.lang{display:inline-flex;gap:2px;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:3px}
+.lang button{min-height:40px;min-width:52px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#fff;font:600 15px/1 Barlow,sans-serif;cursor:pointer}
+.lang button[aria-pressed=true]{background:#fff;color:var(--blue)}
+.lang button:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.care li b{display:block}
 .head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:end;margin-bottom:clamp(24px,3.4vw,40px)}
 .sub{margin:12px 0 0;max-width:46ch;font-size:17px;color:rgba(255,255,255,.88)}
 .count{display:grid;justify-items:end;text-align:right}
@@ -101,25 +107,26 @@ h2{font-size:clamp(26px,3vw,34px)}
 <body>
 <header class="band top">
   <div class="wrap">
+    <div class="bar"><div class="lang" role="group" aria-label="Language / Sprache"><button type="button" id="l-en" data-l="en" aria-pressed="true">EN</button><button type="button" id="l-de" data-l="de" aria-pressed="false">DE</button></div></div>
     <div class="head">
       <div>
-        <h1>You’ll do well, Lili.</h1>
-        <p class="sub">Zweites Staatsexamen: eight exams from 7 June, the oral in October. Here is all the time between now and then.</p>
+        <h1 data-t="h1">You’ll do well, Lili.</h1>
+        <p class="sub" data-t="sub">Zweites Staatsexamen: eight exams from 7 June, the oral in October. Here is all the time between now and then.</p>
       </div>
       <div class="count" aria-live="polite">
         <div class="cd"><span class="big" id="days">197</span><span class="unit" id="dl">days</span></div>
         <p class="rest" id="rest">until the first exam</p>
       </div>
     </div>
-    <div class="cal" role="img" aria-label="Calendar of every day from 22 November 2026 to 7 June 2027">
+    <div class="cal" role="img" data-ta="calA" aria-label="Calendar of every day from 22 November 2026 to 7 June 2027">
       <div><div class="months" id="mA"></div><div class="days" id="cA"></div><div class="notes" id="nA"></div></div>
       <div><div class="months" id="mB"></div><div class="days" id="cB"></div><div class="notes" id="nB"></div></div>
     </div>
-    <p class="tally"><span id="tally">Day 1 of 197.</span><span class="hint">Each square is a day. They fill in as they pass.</span></p>
+    <p class="tally"><span id="tally">Day 1 of 197.</span><span class="hint" data-t="hint">Each square is a day. They fill in as they pass.</span></p>
     <div class="exam">
-      <span class="exl">From 7 June</span>
-      <div class="exd" role="img" aria-label="Eight exams: four Zivilrecht, two Öffentliches Recht, two Strafrecht"><span>Z</span><span>Z</span><span>Z</span><span>Z</span><span>Ö</span><span>Ö</span><span>S</span><span>S</span></div>
-      <span class="oral">then the oral in October</span>
+      <span class="exl" data-t="from">From 7 June</span>
+      <div class="exd" role="img" data-ta="exA" aria-label="Eight exams: four Zivilrecht, two Öffentliches Recht, two Strafrecht"><span>Z</span><span>Z</span><span>Z</span><span>Z</span><span>Ö</span><span>Ö</span><span>S</span><span>S</span></div>
+      <span class="oral" data-t="oral">then the oral in October</span>
     </div>
   </div>
 </header>
@@ -130,16 +137,16 @@ h2{font-size:clamp(26px,3vw,34px)}
     <div>
       <p class="lab" id="qdate">Today’s note</p>
       <p class="quote" id="quote" aria-live="polite">You’ve done harder things than this. The first state exam, for one.</p>
-      <div class="qrow"><button type="button" class="btn" id="next">Another one</button><span class="mut">A new one waits here every morning.</span></div>
+      <div class="qrow"><button type="button" class="btn" id="next" data-t="next">Another one</button><span class="mut" data-t="waits">A new one waits here every morning.</span></div>
     </div>
     <div class="care">
-      <h2>Look after yourself</h2>
-      <p>Don’t trade sleep, exercise or your peace of mind for extra hours. Seven steady months beat a few exhausting weeks.</p>
+      <h2 data-t="care">Look after yourself</h2>
+      <p data-t="careP">Don’t trade sleep, exercise or your peace of mind for extra hours. Seven steady months beat a few exhausting weeks.</p>
       <ul>
-        <li>Sleep<span>Studying counts more after a full night.</span></li>
-        <li>Move<span>A walk is part of the work.</span></li>
-        <li>Eat properly<span>Not just whatever is near the desk.</span></li>
-        <li>See your people<span>The books can wait an evening.</span></li>
+        <li><b data-t="c1">Sleep</b><span data-t="c1s">Studying counts more after a full night.</span></li>
+        <li><b data-t="c2">Move</b><span data-t="c2s">A walk is part of the work.</span></li>
+        <li><b data-t="c3">Eat properly</b><span data-t="c3s">Not just whatever is near the desk.</span></li>
+        <li><b data-t="c4">See your people</b><span data-t="c4s">The books can wait an evening.</span></li>
       </ul>
     </div>
   </div>
@@ -175,7 +182,7 @@ h2{font-size:clamp(26px,3vw,34px)}
       </div>
     </article>
     <aside class="note">
-      <p class="hand">This will be fine Lili, you’ll do so well, I just know it. It’s all about collecting yourself.</p>
+      <p class="hand" data-t="hand">This will be fine Lili, you’ll do so well, I just know it. It’s all about collecting yourself.</p>
       <p class="from">– Ojas</p>
     </aside>
   </div>
@@ -183,7 +190,7 @@ h2{font-size:clamp(26px,3vw,34px)}
 </main>
 
 <footer class="band foot">
-  <div class="wrap"><p class="bye">Viel Erfolg, Lili.</p></div>
+  <div class="wrap"><p class="bye" data-t="bye">Good luck, Lili.</p></div>
 </footer>
 
 <script>
@@ -193,51 +200,36 @@ const GRID=new Date(2026,10,16);
 const EXAMDAY=new Date(2027,5,7);
 const FT=new Date(2027,2,15);
 const EXAM=Date.UTC(2027,5,6,22,0,0);
-const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const NOTES=[
-'You’ve done harder things than this. The first state exam, for one.',
-'One case at a time. Nobody solves eight at once.',
-'A slow day is still a day forward.',
-'Du schaffst das.',
-'Tired is allowed. Rest, then go again.',
-'You don’t have to feel ready to be ready.',
-'Every case you write makes the next one easier.',
-'Close the books on time tonight. Tomorrow you will thank you.',
-'Drink some water. Seriously.',
-'It’s a long road, and you’re already walking it.',
-'Think like the judge. You have the voice for it.',
-'Kopf hoch. Es wird gut.',
-'Progress hides on the days that feel slowest.',
-'Go outside for ten minutes. The ZPO will still be there.',
-'You know more than you did a month ago. That’s how this works.',
-'Ein Fall nach dem anderen.',
-'A bad practice exam now is a good exam later.',
-'You’re allowed to be proud of today.',
-'Sleep is part of studying.',
-'Someone on the other side of the world is cheering for you.',
-'Viel Erfolg heute.',
-'Keep going. You’re doing better than you think.',
-'Breathe. Read the facts again. Start with what you know.',
-'Small steps, every day. They add up to June.'
-];
+const T={
+en:{title:'Lili’s Staatsexamen',h1:'You’ll do well, Lili.',sub:'Zweites Staatsexamen: eight exams from 7 June, the oral in October. Here is all the time between now and then.',calA:'Calendar of every day from 22 November 2026 to 7 June 2027',hint:'Each square is a day. They fill in as they pass.',from:'From 7 June',exA:'Eight exams: four Zivilrecht, two Öffentliches Recht, two Strafrecht',oral:'then the oral in October',next:'Another one',waits:'A new one waits here every morning.',care:'Look after yourself',careP:'Don’t trade sleep, exercise or your peace of mind for extra hours. Seven steady months beat a few exhausting weeks.',c1:'Sleep',c1s:'Studying counts more after a full night.',c2:'Move',c2s:'A walk is part of the work.',c3:'Eat properly',c3s:'Not just whatever is near the desk.',c4:'See your people',c4s:'The books can wait an evening.',hand:'This will be fine Lili, you’ll do so well, I just know it. It’s all about collecting yourself.',bye:'Good luck, Lili.',
+mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],ft:'Full-time from mid-March',first:'First exam, 7 June',ready:'It’s exam time. You’re ready.',day:(n,t)=>`Day ${n} of ${t}.`,unit:d=>d===1?'day':'days',rest:(h,m)=>`and ${h} h ${m} min until the first exam`,qdate:(d,m)=>`Today’s note, ${d} ${m}`,
+notes:['You’ve done harder things than this. The first state exam, for one.','One case at a time. Nobody solves eight at once.','A slow day is still a day forward.','You’ve got this.','Tired is allowed. Rest, then go again.','You don’t have to feel ready to be ready.','Every case you write makes the next one easier.','Close the books on time tonight. Tomorrow you will thank you.','Drink some water. Seriously.','It’s a long road, and you’re already walking it.','Think like the judge. You have the voice for it.','Chin up. It’s going to be good.','Progress hides on the days that feel slowest.','Go outside for ten minutes. The ZPO will still be there.','You know more than you did a month ago. That’s how this works.','Step by step.','A bad practice exam now is a good exam later.','You’re allowed to be proud of today.','Sleep is part of studying.','Someone on the other side of the world is cheering for you.','Good luck today.','Keep going. You’re doing better than you think.','Breathe. Read the facts again. Start with what you know.','Small steps, every day. They add up to June.']},
+de:{title:'Lilis Staatsexamen',h1:'Du schaffst das, Lili.',sub:'Zweites Staatsexamen: acht Klausuren ab dem 7. Juni, die mündliche Prüfung im Oktober. Hier ist die ganze Zeit bis dahin.',calA:'Kalender mit jedem Tag vom 22. November 2026 bis zum 7. Juni 2027',hint:'Jedes Kästchen ist ein Tag und füllt sich, sobald er vorbei ist.',from:'Ab 7. Juni',exA:'Acht Klausuren: viermal Zivilrecht, zweimal Öffentliches Recht, zweimal Strafrecht',oral:'danach die mündliche Prüfung im Oktober',next:'Noch eine',waits:'Jeden Morgen wartet hier eine neue.',care:'Pass auf dich auf',careP:'Tausch Schlaf, Bewegung und innere Ruhe nicht gegen mehr Lernstunden. Sieben gleichmäßige Monate sind mehr wert als ein paar erschöpfende Wochen.',c1:'Schlafen',c1s:'Nach einer guten Nacht bleibt mehr hängen.',c2:'Bewegen',c2s:'Ein Spaziergang gehört zur Arbeit.',c3:'Richtig essen',c3s:'Nicht nur das, was gerade am Schreibtisch liegt.',c4:'Freunde treffen',c4s:'Die Bücher können einen Abend warten.',hand:'Das wird gut, Lili. Du wirst das so gut machen, ich weiß es einfach. Es kommt nur darauf an, dich zu sammeln.',bye:'Viel Erfolg, Lili.',
+mon:['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],ft:'Ab Mitte März Vollzeit',first:'Erste Klausur, 7. Juni',ready:'Examenszeit. Du bist bereit.',day:(n,t)=>`Tag ${n} von ${t}.`,unit:d=>d===1?'Tag':'Tage',rest:(h,m)=>`und ${h} Std. ${m} Min. bis zur ersten Klausur`,qdate:(d,m)=>`Notiz für heute, ${d}. ${m}`,
+notes:['Du hast schon Schwereres geschafft. Das erste Examen zum Beispiel.','Ein Fall nach dem anderen. Niemand löst acht auf einmal.','Ein langsamer Tag ist trotzdem ein Schritt nach vorn.','Du schaffst das.','Müde sein ist erlaubt. Ausruhen, dann weiter.','Du musst dich nicht bereit fühlen, um bereit zu sein.','Jede Klausur, die du schreibst, macht die nächste leichter.','Mach heute pünktlich Schluss. Morgen dankst du dir dafür.','Trink ein Glas Wasser. Im Ernst.','Der Weg ist lang, und du bist schon mittendrin.','Denk wie die Richterin. Du hast die Stimme dafür.','Kopf hoch. Es wird gut.','Fortschritt versteckt sich an den Tagen, die sich am langsamsten anfühlen.','Geh zehn Minuten raus. Die ZPO ist danach noch da.','Du weißt mehr als vor einem Monat. So funktioniert das.','Schritt für Schritt.','Eine schlechte Probeklausur jetzt ist eine gute Klausur später.','Du darfst heute stolz auf dich sein.','Schlaf gehört zum Lernen dazu.','Auf der anderen Seite der Welt drückt dir jemand die Daumen.','Viel Erfolg heute.','Weitermachen. Du bist besser, als du denkst.','Durchatmen. Sachverhalt nochmal lesen. Mit dem anfangen, was du weißt.','Kleine Schritte, jeden Tag. Sie führen bis zum Juni.']}};
+let lang='en';
+try{const sv=localStorage.getItem('lili-lang');lang=sv==='de'||sv==='en'?sv:((navigator.language||'').toLowerCase().startsWith('de')?'de':'en')}catch(e){lang=(navigator.language||'').toLowerCase().startsWith('de')?'de':'en'}
+const L=()=>T[lang];
 const $=id=>document.getElementById(id);
 const day0=d=>new Date(d.getFullYear(),d.getMonth(),d.getDate());
 const diff=(a,b)=>Math.round((day0(a)-day0(b))/864e5);
 const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
 let qi=0;
 
-const drawCal=()=>{const t=new Date();['A','B'].forEach((k,bi)=>{const c0=bi*15;let cells='',months='',lastM=-1;for(let c=c0;c<c0+15;c++){for(let r=0;r<7;r++){const d=addD(GRID,c*7+r);let cls='';if(d<START||d>EXAMDAY)cls='blank';else if(diff(d,EXAMDAY)===0)cls='xd';else if(diff(d,t)===0)cls='today';else if(d<day0(t))cls='past';else if(d>=FT)cls='ft';cells+=`<i class="${cls}"></i>`}const m=addD(GRID,c*7+6).getMonth();if(m!==lastM){months+=`<span style="grid-column:${c-c0+1}">${MON[m]}</span>`;lastM=m}}$('c'+k).innerHTML=cells;$('m'+k).innerHTML=months});const ftc=Math.floor(diff(FT,GRID)/7)-15;$('nB').innerHTML=`<span style="grid-column:${ftc+1}/span 7">Full-time from mid-March</span><span class="end" style="grid-column:10/span 6">First exam, 7 June</span>`;const total=diff(EXAMDAY,START),n=Math.max(0,diff(t,START))+1;$('tally').textContent=n>total?'It’s exam time. You’re ready.':`Day ${n} of ${total}.`};
+const drawCal=()=>{const t=new Date();['A','B'].forEach((k,bi)=>{const c0=bi*15;let cells='',months='',lastM=-1;for(let c=c0;c<c0+15;c++){for(let r=0;r<7;r++){const d=addD(GRID,c*7+r);let cls='';if(d<START||d>EXAMDAY)cls='blank';else if(diff(d,EXAMDAY)===0)cls='xd';else if(diff(d,t)===0)cls='today';else if(d<day0(t))cls='past';else if(d>=FT)cls='ft';cells+=`<i class="${cls}"></i>`}const m=addD(GRID,c*7+6).getMonth();if(m!==lastM){months+=`<span style="grid-column:${c-c0+1}">${L().mon[m]}</span>`;lastM=m}}$('c'+k).innerHTML=cells;$('m'+k).innerHTML=months});const ftc=Math.floor(diff(FT,GRID)/7)-15;$('nB').innerHTML=`<span style="grid-column:${ftc+1}/span 7">${L().ft}</span><span class="end" style="grid-column:10/span 6">${L().first}</span>`;const total=diff(EXAMDAY,START),n=Math.max(0,diff(t,START))+1;$('tally').textContent=n>total?L().ready:L().day(n,total)};
 
-const tick=()=>{const ms=EXAM-Date.now();if(ms<=0){$('days').textContent='0';$('dl').textContent='days';$('rest').textContent='Exam time. You’re ready.';return}const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),mi=Math.floor(ms%36e5/6e4);$('days').textContent=d;$('dl').textContent=d===1?'day':'days';$('rest').textContent=`and ${h} h ${String(mi).padStart(2,'0')} min until the first exam`};
+const tick=()=>{const ms=EXAM-Date.now();if(ms<=0){$('days').textContent='0';$('dl').textContent=L().unit(0);$('rest').textContent=L().ready;return}const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),mi=Math.floor(ms%36e5/6e4);$('days').textContent=d;$('dl').textContent=L().unit(d);$('rest').textContent=L().rest(h,String(mi).padStart(2,'0'))};
 
-const showNote=anim=>{const q=$('quote');q.textContent=NOTES[qi%NOTES.length];if(anim&&!matchMedia('(prefers-reduced-motion: reduce)').matches){q.classList.remove('fade');void q.offsetWidth;q.classList.add('fade')}};
+const showNote=anim=>{const q=$('quote');q.textContent=L().notes[qi%L().notes.length];if(anim&&!matchMedia('(prefers-reduced-motion: reduce)').matches){q.classList.remove('fade');void q.offsetWidth;q.classList.add('fade')}};
 
-const t0=new Date();qi=((diff(t0,START)%NOTES.length)+NOTES.length)%NOTES.length;
-$('qdate').textContent=`Today’s note, ${t0.getDate()} ${MON[t0.getMonth()]}`;
-$('next').addEventListener('click',()=>{qi=(qi+1)%NOTES.length;showNote(true)});
-let lastDay=t0.getDate();
-drawCal();tick();showNote(false);
-setInterval(()=>{tick();const n=new Date();if(n.getDate()!==lastDay){lastDay=n.getDate();drawCal();qi=((diff(n,START)%NOTES.length)+NOTES.length)%NOTES.length;showNote(true);$('qdate').textContent=`Today’s note, ${n.getDate()} ${MON[n.getMonth()]}`}},20000);
+const N=T.en.notes.length;
+const setQ=d=>{qi=((diff(d,START)%N)+N)%N};
+const qdate=d=>{$('qdate').textContent=L().qdate(d.getDate(),L().mon[d.getMonth()])};
+const apply=()=>{document.documentElement.lang=lang;document.title=L().title;for(const el of document.querySelectorAll('[data-t]'))el.textContent=L()[el.dataset.t];for(const el of document.querySelectorAll('[data-ta]'))el.setAttribute('aria-label',L()[el.dataset.ta]);for(const b of document.querySelectorAll('.lang button'))b.setAttribute('aria-pressed',String(b.dataset.l===lang));drawCal();tick();showNote(false);qdate(new Date())};
+for(const b of document.querySelectorAll('.lang button'))b.addEventListener('click',()=>{lang=b.dataset.l;try{localStorage.setItem('lili-lang',lang)}catch(e){}apply()});
+$('next').addEventListener('click',()=>{qi=(qi+1)%N;showNote(true)});
+const t0=new Date();let lastDay=t0.getDate();setQ(t0);apply();
+setInterval(()=>{tick();const n=new Date();if(n.getDate()!==lastDay){lastDay=n.getDate();drawCal();setQ(n);showNote(true);qdate(n)}},20000);
 }
 </script>
 </body>

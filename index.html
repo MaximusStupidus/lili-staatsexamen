@@ -85,7 +85,7 @@ h2{font-size:clamp(26px,3vw,34px)}
 .vn{font:600 23px/1.2 "Source Serif 4",Georgia,serif;text-align:center;margin:26px 0 2px;letter-spacing:.03em}
 .doc .ur{text-align:center;font-weight:600;font-size:20px;margin-bottom:20px}
 .party{padding-left:1.5em}
-.party span{display:block;text-align:right;font-style:italic}
+.party .role{display:block;text-align:right;font-style:italic}
 .tenor{margin:8px 0 18px;padding-left:1.6em}
 .tenor li{margin:7px 0;padding-left:.3em}
 .doc .fn{font-size:15px;color:#4a4d57}
@@ -154,36 +154,35 @@ h2{font-size:clamp(26px,3vw,34px)}
 
 <section class="band verdict">
   <div class="wrap vgrid">
-    <article class="doc" lang="de">
-      <p class="court">Landgericht Zuversicht</p>
-      <p class="az">Az.: 7 O 6/27</p>
-      <h2 class="vn">Im Namen des Volkes</h2>
-      <p class="ur">Urteil</p>
-      <p>In dem Rechtsstreit</p>
-      <p class="party">Lilian, Rechtsreferendarin,<span>– Klägerin –</span></p>
-      <p>gegen</p>
-      <p class="party">den gesamten Prüfungsstoff des Zweiten Juristischen Staatsexamens,<span>– Beklagter –</span></p>
-      <p>hat das Gericht für Recht erkannt:</p>
+    <article class="doc">
+      <p class="court" data-t="u_court">Landgericht Zuversicht</p>
+      <p class="az" data-t="u_az">Az.: 7 O 6/27</p>
+      <h2 class="vn" data-t="u_vn">Im Namen des Volkes</h2>
+      <p class="ur" data-t="u_ur">Urteil</p>
+      <p data-t="u_in">In dem Rechtsstreit</p>
+      <p class="party"><span data-t="u_p1">Lilian, Rechtsreferendarin,</span><span class="role" data-t="u_p1r">– Klägerin –</span></p>
+      <p data-t="u_vs">gegen</p>
+      <p class="party"><span data-t="u_p2">den gesamten Prüfungsstoff des Zweiten Juristischen Staatsexamens,</span><span class="role" data-t="u_p2r">– Beklagter –</span></p>
+      <p data-t="u_rule">hat das Gericht für Recht erkannt:</p>
       <ol class="tenor">
-        <li>Es wird festgestellt, dass die Klägerin das Examen mit Bravour besteht.</li>
-        <li>Der Beklagte wird verurteilt, sich in acht Klausuren lösen zu lassen.</li>
-        <li>Die Kosten des Rechtsstreits trägt der Beklagte.</li>
-        <li>Das Urteil ist vorläufig vollstreckbar.</li>
+        <li data-t="u_t1">Es wird festgestellt, dass die Klägerin das Examen mit Bravour besteht.</li>
+        <li data-t="u_t2">Der Beklagte wird verurteilt, sich in acht Klausuren lösen zu lassen.</li>
+        <li data-t="u_t3">Die Kosten des Rechtsstreits trägt der Beklagte.</li>
+        <li data-t="u_t4">Das Urteil ist vorläufig vollstreckbar.</li>
       </ol>
-      <p class="fn">Von der Darstellung des Tatbestandes wird gemäß § 313a Abs. 1 ZPO abgesehen. Ein Rechtsmittel ist unzweifelhaft nicht zulässig.</p>
+      <p class="fn" data-t="u_fn">Von der Darstellung des Tatbestandes wird gemäß § 313a Abs. 1 ZPO abgesehen. Ein Rechtsmittel ist unzweifelhaft nicht zulässig.</p>
       <div class="sigrow">
-        <p class="sig">gez. Ojas</p>
+        <p class="sig" data-t="u_sig">gez. Das Gericht</p>
         <svg class="stamp" viewBox="0 0 160 160" aria-hidden="true">
           <defs><path id="sp" d="M80,80 m-61,0 a61,61 0 1,1 122,0 a61,61 0 1,1 -122,0"/></defs>
           <g fill="none" stroke="currentColor"><circle cx="80" cy="80" r="75" stroke-width="3"/><circle cx="80" cy="80" r="50" stroke-width="1.5"/><path d="M60 78l13 13 27-29" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>
-          <text fill="currentColor" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="12.5" letter-spacing="1"><textPath href="#sp" textLength="376" lengthAdjust="spacing">LANDGERICHT ZUVERSICHT • VORLÄUFIG VOLLSTRECKBAR •</textPath></text>
-          <text x="80" y="111" text-anchor="middle" fill="currentColor" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="12" letter-spacing="1.5">BESTANDEN</text>
+          <text fill="currentColor" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="12.5" letter-spacing="1"><textPath href="#sp" textLength="376" lengthAdjust="spacing" data-t="u_ring">LANDGERICHT ZUVERSICHT • VORLÄUFIG VOLLSTRECKBAR •</textPath></text>
+          <text x="80" y="111" text-anchor="middle" fill="currentColor" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="12" letter-spacing="1.5" data-t="u_pass">BESTANDEN</text>
         </svg>
       </div>
     </article>
     <aside class="note">
       <p class="hand" data-t="hand">This will be fine Lili, you’ll do so well, I just know it. It’s all about collecting yourself.</p>
-      <p class="from">– Ojas</p>
     </aside>
   </div>
 </section>
@@ -201,10 +200,10 @@ const EXAMDAY=new Date(2027,5,7);
 const FT=new Date(2027,2,15);
 const EXAM=Date.UTC(2027,5,6,22,0,0);
 const T={
-en:{title:'Lili’s Staatsexamen',h1:'You’ll do well, Lili.',sub:'Zweites Staatsexamen: eight exams from 7 June, the oral in October. Here is all the time between now and then.',calA:'Calendar of every day from 22 November 2026 to 7 June 2027',hint:'Each square is a day. They fill in as they pass.',from:'From 7 June',exA:'Eight exams: four Zivilrecht, two Öffentliches Recht, two Strafrecht',oral:'then the oral in October',next:'Another one',waits:'A new one waits here every morning.',care:'Look after yourself',careP:'Don’t trade sleep, exercise or your peace of mind for extra hours. Seven steady months beat a few exhausting weeks.',c1:'Sleep',c1s:'Studying counts more after a full night.',c2:'Move',c2s:'A walk is part of the work.',c3:'Eat properly',c3s:'Not just whatever is near the desk.',c4:'See your people',c4s:'The books can wait an evening.',hand:'This will be fine Lili, you’ll do so well, I just know it. It’s all about collecting yourself.',bye:'Good luck, Lili.',
+en:{title:'Lili’s Staatsexamen',h1:'You’ll do well, Lili.',sub:'Zweites Staatsexamen: eight exams from 7 June, the oral in October. Here is all the time between now and then.',calA:'Calendar of every day from 22 November 2026 to 7 June 2027',hint:'Each square is a day. They fill in as they pass.',from:'From 7 June',exA:'Eight exams: four Zivilrecht, two Öffentliches Recht, two Strafrecht',oral:'then the oral in October',next:'Another one',waits:'A new one waits here every morning.',care:'Look after yourself',careP:'Don’t trade sleep, exercise or your peace of mind for extra hours. Seven steady months beat a few exhausting weeks.',c1:'Sleep',c1s:'Studying counts more after a full night.',c2:'Move',c2s:'A walk is part of the work.',c3:'Eat properly',c3s:'Not just whatever is near the desk.',c4:'See your people',c4s:'The books can wait an evening.',hand:'This will be fine Lili, you’ll do so well, I just know it. It’s all about collecting yourself.',bye:'Good luck, Lili.',u_court:'Regional Court of Confidence',u_az:'Case no. 7 O 6/27',u_vn:'In the Name of the People',u_ur:'Judgment',u_in:'In the matter of',u_p1:'Lilian, trainee lawyer,',u_p1r:'– Plaintiff –',u_vs:'versus',u_p2:'the entire syllabus of the Second State Law Examination,',u_p2r:'– Defendant –',u_rule:'the Court rules as follows:',u_t1:'It is hereby declared that the Plaintiff passes the exam with flying colours.',u_t2:'The Defendant is ordered to let itself be solved in eight exams.',u_t3:'The Defendant shall bear the costs of the proceedings.',u_t4:'This judgment is provisionally enforceable.',u_fn:'Pursuant to § 313a(1) ZPO, the statement of facts is omitted. An appeal is beyond doubt inadmissible.',u_sig:'Signed, the Court',u_ring:'COURT OF CONFIDENCE • PROVISIONALLY ENFORCEABLE •',u_pass:'PASSED',
 mon:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],ft:'Full-time from mid-March',first:'First exam, 7 June',ready:'It’s exam time. You’re ready.',day:(n,t)=>`Day ${n} of ${t}.`,unit:d=>d===1?'day':'days',rest:(h,m)=>`and ${h} h ${m} min until the first exam`,qdate:(d,m)=>`Today’s note, ${d} ${m}`,
 notes:['You’ve done harder things than this. The first state exam, for one.','One case at a time. Nobody solves eight at once.','A slow day is still a day forward.','You’ve got this.','Tired is allowed. Rest, then go again.','You don’t have to feel ready to be ready.','Every case you write makes the next one easier.','Close the books on time tonight. Tomorrow you will thank you.','Drink some water. Seriously.','It’s a long road, and you’re already walking it.','Think like the judge. You have the voice for it.','Chin up. It’s going to be good.','Progress hides on the days that feel slowest.','Go outside for ten minutes. The ZPO will still be there.','You know more than you did a month ago. That’s how this works.','Step by step.','A bad practice exam now is a good exam later.','You’re allowed to be proud of today.','Sleep is part of studying.','Someone on the other side of the world is cheering for you.','Good luck today.','Keep going. You’re doing better than you think.','Breathe. Read the facts again. Start with what you know.','Small steps, every day. They add up to June.']},
-de:{title:'Lilis Staatsexamen',h1:'Du schaffst das, Lili.',sub:'Zweites Staatsexamen: acht Klausuren ab dem 7. Juni, die mündliche Prüfung im Oktober. Hier ist die ganze Zeit bis dahin.',calA:'Kalender mit jedem Tag vom 22. November 2026 bis zum 7. Juni 2027',hint:'Jedes Kästchen ist ein Tag und füllt sich, sobald er vorbei ist.',from:'Ab 7. Juni',exA:'Acht Klausuren: viermal Zivilrecht, zweimal Öffentliches Recht, zweimal Strafrecht',oral:'danach die mündliche Prüfung im Oktober',next:'Noch eine',waits:'Jeden Morgen wartet hier eine neue.',care:'Pass auf dich auf',careP:'Tausch Schlaf, Bewegung und innere Ruhe nicht gegen mehr Lernstunden. Sieben gleichmäßige Monate sind mehr wert als ein paar erschöpfende Wochen.',c1:'Schlafen',c1s:'Nach einer guten Nacht bleibt mehr hängen.',c2:'Bewegen',c2s:'Ein Spaziergang gehört zur Arbeit.',c3:'Richtig essen',c3s:'Nicht nur das, was gerade am Schreibtisch liegt.',c4:'Freunde treffen',c4s:'Die Bücher können einen Abend warten.',hand:'Das wird gut, Lili. Du wirst das so gut machen, ich weiß es einfach. Es kommt nur darauf an, dich zu sammeln.',bye:'Viel Erfolg, Lili.',
+de:{title:'Lilis Staatsexamen',h1:'Du schaffst das, Lili.',sub:'Zweites Staatsexamen: acht Klausuren ab dem 7. Juni, die mündliche Prüfung im Oktober. Hier ist die ganze Zeit bis dahin.',calA:'Kalender mit jedem Tag vom 22. November 2026 bis zum 7. Juni 2027',hint:'Jedes Kästchen ist ein Tag und füllt sich, sobald er vorbei ist.',from:'Ab 7. Juni',exA:'Acht Klausuren: viermal Zivilrecht, zweimal Öffentliches Recht, zweimal Strafrecht',oral:'danach die mündliche Prüfung im Oktober',next:'Noch eine',waits:'Jeden Morgen wartet hier eine neue.',care:'Pass auf dich auf',careP:'Tausch Schlaf, Bewegung und innere Ruhe nicht gegen mehr Lernstunden. Sieben gleichmäßige Monate sind mehr wert als ein paar erschöpfende Wochen.',c1:'Schlafen',c1s:'Nach einer guten Nacht bleibt mehr hängen.',c2:'Bewegen',c2s:'Ein Spaziergang gehört zur Arbeit.',c3:'Richtig essen',c3s:'Nicht nur das, was gerade am Schreibtisch liegt.',c4:'Freunde treffen',c4s:'Die Bücher können einen Abend warten.',hand:'Das wird gut, Lili. Du wirst das so gut machen, ich weiß es einfach. Es kommt nur darauf an, dich zu sammeln.',bye:'Viel Erfolg, Lili.',u_court:'Landgericht Zuversicht',u_az:'Az.: 7 O 6/27',u_vn:'Im Namen des Volkes',u_ur:'Urteil',u_in:'In dem Rechtsstreit',u_p1:'Lilian, Rechtsreferendarin,',u_p1r:'– Klägerin –',u_vs:'gegen',u_p2:'den gesamten Prüfungsstoff des Zweiten Juristischen Staatsexamens,',u_p2r:'– Beklagter –',u_rule:'hat das Gericht für Recht erkannt:',u_t1:'Es wird festgestellt, dass die Klägerin das Examen mit Bravour besteht.',u_t2:'Der Beklagte wird verurteilt, sich in acht Klausuren lösen zu lassen.',u_t3:'Die Kosten des Rechtsstreits trägt der Beklagte.',u_t4:'Das Urteil ist vorläufig vollstreckbar.',u_fn:'Von der Darstellung des Tatbestandes wird gemäß § 313a Abs. 1 ZPO abgesehen. Ein Rechtsmittel ist unzweifelhaft nicht zulässig.',u_sig:'gez. Das Gericht',u_ring:'LANDGERICHT ZUVERSICHT • VORLÄUFIG VOLLSTRECKBAR •',u_pass:'BESTANDEN',
 mon:['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'],ft:'Ab Mitte März Vollzeit',first:'Erste Klausur, 7. Juni',ready:'Examenszeit. Du bist bereit.',day:(n,t)=>`Tag ${n} von ${t}.`,unit:d=>d===1?'Tag':'Tage',rest:(h,m)=>`und ${h} Std. ${m} Min. bis zur ersten Klausur`,qdate:(d,m)=>`Notiz für heute, ${d}. ${m}`,
 notes:['Du hast schon Schwereres geschafft. Das erste Examen zum Beispiel.','Ein Fall nach dem anderen. Niemand löst acht auf einmal.','Ein langsamer Tag ist trotzdem ein Schritt nach vorn.','Du schaffst das.','Müde sein ist erlaubt. Ausruhen, dann weiter.','Du musst dich nicht bereit fühlen, um bereit zu sein.','Jede Klausur, die du schreibst, macht die nächste leichter.','Mach heute pünktlich Schluss. Morgen dankst du dir dafür.','Trink ein Glas Wasser. Im Ernst.','Der Weg ist lang, und du bist schon mittendrin.','Denk wie die Richterin. Du hast die Stimme dafür.','Kopf hoch. Es wird gut.','Fortschritt versteckt sich an den Tagen, die sich am langsamsten anfühlen.','Geh zehn Minuten raus. Die ZPO ist danach noch da.','Du weißt mehr als vor einem Monat. So funktioniert das.','Schritt für Schritt.','Eine schlechte Probeklausur jetzt ist eine gute Klausur später.','Du darfst heute stolz auf dich sein.','Schlaf gehört zum Lernen dazu.','Auf der anderen Seite der Welt drückt dir jemand die Daumen.','Viel Erfolg heute.','Weitermachen. Du bist besser, als du denkst.','Durchatmen. Sachverhalt nochmal lesen. Mit dem anfangen, was du weißt.','Kleine Schritte, jeden Tag. Sie führen bis zum Juni.']}};
 let lang='en';

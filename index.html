@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lili’s Staatsexamen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday study companion, given as a gift: warm but useful
+   IDEA a German court file: DIN-style lettering, stamp-ink blue, a mock Urteil with a stamp
+   PICTURE the 28 weekly practice-exam squares leading to the eight exam days, filling as she logs grades
+   COLOUR stamp ultramarine field, white paper, vermilion for "this week" and the 9-point goal
+   TYPE Barlow Condensed + Barlow; Source Serif 4 for the Urteil; Caveat for the note
+   LAYOUT blue band with title, countdown and week grid full width; editor beside stats; phone stacks */
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0b0e24);--ink:light-dark(#14172b,#eceefc);--mut:light-dark(#585d78,#a4a9c8);--line:light-dark(#d8dbef,#2b3164);--tint:light-dark(#eef0ff,#141a42);--card:light-dark(#ffffff,#10143a);--blue:light-dark(#1f33d1,#2a3fd9);--red:light-dark(#f2441b,#ff6a45)}
+:root[data-theme=light]{color-scheme:light}
+:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Barlow,system-ui,sans-serif;overflow-x:clip}
+.band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+h1,h2,h3{font-family:"Barlow Condensed",Barlow,sans-serif;font-weight:700;line-height:1.05;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h1{font-size:clamp(38px,5vw,52px)}
+h2{font-size:clamp(28px,3.4vw,38px)}
+h3{font-size:22px;margin:24px 0 10px}
+.mut{color:var(--mut)}
+.top{background:var(--blue);color:#fff;padding-bottom:clamp(24px,3vw,44px)}
+.head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:end;margin-bottom:clamp(20px,3vw,36px)}
+.sub{margin:12px 0 0;max-width:44ch;font-size:17px;color:rgba(255,255,255,.88)}
+.count{display:grid;justify-items:end;text-align:right}
+.cd{display:flex;align-items:baseline;gap:10px}
+.big{font:700 clamp(72px,11vw,128px)/.85 "Barlow Condensed",sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.unit{font:600 28px/1 "Barlow Condensed",sans-serif}
+.rest{margin:8px 0 0;color:rgba(255,255,255,.88)}
+.weeks{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:14px 6px}
+.wk{position:relative;height:clamp(46px,5.6vw,72px);border:1.5px solid rgba(255,255,255,.4);border-radius:6px;background:transparent;color:#fff;font:inherit;padding:5px 6px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between}
+.wk.ft{background:rgba(255,255,255,.1)}
+.wk .d{font-size:13px;line-height:1;opacity:.85}
+.wk .d.m{font-weight:600;opacity:1}
+.wk b{font:700 clamp(18px,2.4vw,30px)/1 "Barlow Condensed",sans-serif}
+.wk i{position:absolute;right:5px;bottom:5px;font-style:normal;font-size:13px;font-weight:600;line-height:1}
+.wk.mid{background:rgba(255,255,255,.3);border-color:transparent}
+.wk.mid .d{opacity:1}
+.wk.hi{background:#fff;color:var(--blue);border-color:#fff}
+.wk.lo{background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.25)}
+.wk.miss{border-style:dashed}
+.wk.fut{cursor:default;opacity:.55}
+.wk:not(.fut):hover{border-color:#fff}
+.wk.sel::after{content:"";position:absolute;left:18%;right:18%;bottom:-9px;height:3px;border-radius:2px;background:#fff}
+.wk.now{outline:3px solid var(--red);outline-offset:2px}
+.wk:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.pop{animation:pop .45s ease-out}
+@keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+.exam{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:26px}
+.exl{font:600 22px/1 "Barlow Condensed",sans-serif}
+.exd{display:flex;gap:6px}
+.exd span{width:38px;height:38px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:700;font-size:19px}
+.oral{color:rgba(255,255,255,.88)}
+.key{display:flex;flex-wrap:wrap;gap:6px 20px;margin:20px 0 0;font-size:14px;color:rgba(255,255,255,.88)}
+.key span::before{content:"";display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:7px}
+.key .k1::before{background:#fff}
+.key .k2::before{background:rgba(255,255,255,.3)}
+.key .k3::before{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.4)}
+.key .k4::before{border:2.5px solid var(--red)}
+.key .k5::before{display:none}
+.log{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
+.lab{display:block;font-weight:600;font-size:15px;margin:22px 0 8px;padding:0}
+.seg{border:0;padding:0;margin:0}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{position:relative}
+.opts input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.opts span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:1.5px solid var(--line);border-radius:999px;font-weight:500}
+.opts input:checked+span{background:var(--blue);border-color:var(--blue);color:#fff}
+.opts input:focus-visible+span{outline:3px solid var(--red);outline-offset:2px}
+.ptop{display:flex;justify-content:space-between;align-items:baseline;margin-top:22px}
+.ptop .lab{margin:0}
+#pv{font:700 34px/1 "Barlow Condensed",sans-serif}
+#pv.hi{color:var(--blue)}
+#pv.lo{color:var(--mut)}
+.rng{position:relative;padding-bottom:24px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;background:transparent;margin:0;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(to right,var(--blue) var(--f,50%),var(--tint) var(--f,50%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-10px;border-radius:50%;background:#fff;border:3px solid var(--blue);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+input[type=range]::-moz-range-track{height:8px;border-radius:4px;background:var(--tint)}
+input[type=range]::-moz-range-progress{height:8px;border-radius:4px;background:var(--blue)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--blue)}
+input[type=range]:focus-visible{outline:3px solid var(--red);outline-offset:4px;border-radius:6px}
+.marks{position:absolute;left:0;right:0;bottom:0;height:20px}
+.marks span{position:absolute;bottom:0;transform:translateX(-50%);font-size:13px;color:var(--mut);white-space:nowrap}
+.marks .g{color:var(--red);font-weight:600}
+input[type=text],select,textarea{width:100%;font:16px/1.4 Barlow,sans-serif;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:11px 12px;min-height:46px}
+input[type=text]:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 40%,transparent);border-color:var(--blue)}
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;align-items:center}
+.pri,.sec{font:600 16px/1 Barlow,sans-serif;min-height:46px;padding:0 22px;border-radius:999px;cursor:pointer}
+.pri{background:var(--blue);color:#fff;border:0}
+.pri:hover{filter:brightness(1.12)}
+.sec{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.sec:hover{border-color:var(--ink)}
+.pri:focus-visible,.sec:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.panel{background:var(--tint);border-radius:14px;padding:clamp(20px,3vw,32px)}
+.meter{height:12px;border-radius:6px;background:var(--card);margin:16px 0;overflow:hidden}
+.meter span{display:block;height:100%;width:0;background:var(--blue);border-radius:6px}
+#stx b{font:700 22px/1 "Barlow Condensed",sans-serif;color:var(--blue)}
+.mrow,.trow{display:grid;grid-template-columns:9.5em minmax(0,1fr) 2em;gap:10px;align-items:center;margin:9px 0;font-size:15px}
+.trow{grid-template-columns:11.5em minmax(0,1fr) 2em}
+.mbar{position:relative;height:12px;background:var(--card);border-radius:6px}
+.mbar span{display:block;height:100%;background:var(--blue);border-radius:6px}
+.mbar i{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--red)}
+.mn{text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.small{font-size:14px;margin:10px 0 0}
+.plan{background:var(--tint)}
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:26px}
+.pc{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:22px 24px}
+.pc.now{border-color:var(--blue);box-shadow:inset 0 0 0 1.5px var(--blue)}
+.pc h3{margin:0 0 4px;font-size:26px}
+.pc .when{margin:0 0 10px;color:var(--mut);font-size:15px}
+.pc ul{margin:0;padding-left:1.1em}
+.pc li{margin:7px 0}
+.here{display:none}
+.pc.now .here{display:inline-block;margin-bottom:12px;background:var(--blue);color:#fff;font-size:13px;font-weight:600;border-radius:999px;padding:4px 11px}
+.care{margin:22px 0 0;max-width:70ch;font-size:17px}
+.mgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:24px;align-items:start}
+.mform{display:grid;grid-template-columns:minmax(0,13em) minmax(0,1fr) auto;gap:10px;align-items:end}
+.mform .lab{margin:0 0 6px}
+.mlist{list-style:none;margin:20px 0 0;padding:0;border-top:1px solid var(--line)}
+.mlist li{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;grid-template-areas:"c t d x";gap:4px 12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.mlist li.empty{display:block;padding:14px 0;color:var(--mut)}
+.chip{grid-area:c;justify-self:start;font-size:13px;font-weight:600;background:var(--tint);color:var(--blue);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.mtxt{grid-area:t;overflow-wrap:anywhere}
+.md{grid-area:d;font-size:13px;color:var(--mut);white-space:nowrap}
+.x{grid-area:x;width:44px;height:44px;border:0;border-radius:8px;background:transparent;color:var(--mut);font-size:24px;line-height:1;cursor:pointer}
+.x:hover{color:var(--red);background:var(--tint)}
+.x:focus-visible{outline:3px solid var(--red)}
+#mtop b{color:var(--blue)}
+.verdict{background:var(--blue)}
+.vgrid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+.doc{background:#fff;color:#16181f;font:17px/1.6 "Source Serif 4",Georgia,serif;padding:clamp(24px,4vw,52px) clamp(22px,4vw,56px);border-radius:4px;box-shadow:0 22px 40px -20px rgba(0,0,0,.55);transform:rotate(-.6deg)}
+.doc p{margin:0 0 10px}
+.court{font-weight:600}
+.az{color:#555;font-size:15px}
+.vn{font:600 23px/1.2 "Source Serif 4",Georgia,serif;text-align:center;margin:26px 0 2px;letter-spacing:.03em}
+.doc .ur{text-align:center;font-weight:600;font-size:20px;margin-bottom:20px}
+.party{padding-left:1.5em}
+.party span{display:block;text-align:right;font-style:italic}
+.tenor{margin:8px 0 18px;padding-left:1.6em}
+.tenor li{margin:7px 0;padding-left:.3em}
+.doc .fn{font-size:15px;color:#4a4d57}
+.sigrow{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:8px}
+.sig{font-style:italic}
+.stamp{flex:none;width:clamp(104px,13vw,140px);height:auto;color:#2336c9;opacity:.85;transform:rotate(-12deg);mix-blend-mode:multiply}
+.note{color:#fff}
+.hand{font:500 clamp(32px,3.8vw,44px)/1.2 Caveat,cursive;margin:0}
+.from{font:500 30px/1 Caveat,cursive;margin:16px 0 0;opacity:.92}
+.foot{padding-top:40px;padding-bottom:56px}
+.bye{font:700 clamp(32px,4vw,44px)/1.05 "Barlow Condensed",sans-serif;margin:0 0 6px}
+.foot p{margin:0}
+details{margin-top:14px;max-width:680px}
+summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+details p{margin:4px 0 10px}
+textarea{resize:vertical;font-size:14px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:14px;max-width:calc(100% - 32px);background:var(--ink);color:var(--bg);border-radius:999px;padding:7px 7px 7px 20px;box-shadow:0 10px 28px rgba(0,0,0,.28)}
+.toast[hidden]{display:none}
+.toast button{min-height:40px;padding:0 16px;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--bg) 45%,transparent);background:transparent;color:var(--bg);font:600 15px Barlow,sans-serif;cursor:pointer}
+@media(max-width:900px){.mgrid{grid-template-columns:1fr}}
+@media(max-width:899px){.weeks{grid-template-columns:repeat(7,minmax(0,1fr))}.wk{height:50px}.wk b{font-size:20px}.pgrid{grid-template-columns:1fr}}
+@media(max-width:719px){.log{grid-template-columns:1fr}.vgrid{grid-template-columns:1fr}.doc{transform:none}}
+@media(max-width:600px){.head{grid-template-columns:1fr}.count{justify-items:start;text-align:left}.mform{grid-template-columns:1fr}.mform button{justify-self:start}.mlist li{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"c x" "t x" "d x"}.trow{grid-template-columns:9.5em minmax(0,1fr) 2em}}
+@media(prefers-reduced-motion:reduce){.pop{animation:none}}
+</style>
+</head>
+<body>
+<header class="band top">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <h1>Lili’s Staatsexamen</h1>
+        <p class="sub">Eight five-hour exams from 7 June. Until then, one full practice exam a week, graded. The goal is 9 points.</p>
+      </div>
+      <div class="count" aria-live="polite">
+        <div class="cd"><span class="big" id="days">196</span><span class="unit" id="dl">days</span></div>
+        <p class="rest" id="rest">until the first exam</p>
+      </div>
+    </div>
+    <div class="weeks" id="weeks" aria-label="Weekly practice exams"></div>
+    <div class="exam">
+      <span class="exl">From 7 June</span>
+      <div class="exd" role="img" aria-label="Eight exams: four Zivilrecht, two Öffentliches Recht, two Strafrecht"><span>Z</span><span>Z</span><span>Z</span><span>Z</span><span>Ö</span><span>Ö</span><span>S</span><span>S</span></div>
+      <span class="oral">then the oral exam in October</span>
+    </div>
+    <p class="key"><span class="k1">9+ points</span><span class="k2">4 to 8 points</span><span class="k3">Full-time from mid-March</span><span class="k4">This week</span><span class="k5">Z, Ö, S: Zivilrecht, Öffentliches Recht, Strafrecht</span></p>
+  </div>
+</header>
+
+<main>
+<section class="band">
+  <div class="wrap log">
+    <form id="ed" autocomplete="off">
+      <h2 id="edh">Week of Mon 23 Nov</h2>
+      <p class="mut" id="edp">One full 5-hour exam under real conditions, then get it graded.</p>
+      <fieldset class="seg">
+        <legend class="lab">Subject</legend>
+        <div class="opts">
+          <label><input type="radio" name="s" value="Z" id="s-z" checked><span>Zivilrecht</span></label>
+          <label><input type="radio" name="s" value="Ö" id="s-o"><span>Öffentliches Recht</span></label>
+          <label><input type="radio" name="s" value="S" id="s-s"><span>Strafrecht</span></label>
+        </div>
+      </fieldset>
+      <div class="ptop"><label class="lab" for="p">Points</label><output id="pv" for="p">9 points</output></div>
+      <div class="rng">
+        <input type="range" id="p" min="0" max="18" step="1" value="9">
+        <div class="marks" aria-hidden="true"><span style="left:calc((100% - 28px) * 4 / 18 + 14px)">4 pass</span><span class="g" style="left:calc((100% - 28px) * 9 / 18 + 14px)">9 goal</span><span style="left:calc(100% - 14px)">18</span></div>
+      </div>
+      <label class="lab" for="note">What would you fix next time?</label>
+      <input type="text" id="note" maxlength="140" placeholder="Optional">
+      <div class="acts"><button type="submit" class="pri" id="save">Save this exam</button><button type="button" class="sec" id="del" hidden>Remove</button></div>
+    </form>
+    <div class="panel">
+      <h2 id="sth">0 of 28 weekly exams written</h2>
+      <div class="meter"><span id="mt"></span></div>
+      <p id="stx"></p>
+      <h3>Mix so far</h3>
+      <div id="mix"></div>
+      <p class="mut small">The red tick is each subject’s share of the real exam: 4 Zivilrecht, 2 Öffentliches Recht, 2 Strafrecht.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band plan">
+  <div class="wrap">
+    <h2>The plan: steady until March, then all in</h2>
+    <div class="pgrid">
+      <div class="pc" id="p1">
+        <span class="here">You’re here</span>
+        <h3>Until mid-March</h3>
+        <p class="when">Working two to three days a week</p>
+        <ul>
+          <li>About 2 hours on work days: revision and review.</li>
+          <li>6 to 7 focused hours on free days. New material goes here, with a big share of practical cases.</li>
+          <li>Work on weak spots and build on strengths rather than covering everything at once.</li>
+        </ul>
+      </div>
+      <div class="pc" id="p2">
+        <span class="here">You’re here</span>
+        <h3>From mid-March</h3>
+        <p class="when">Full-time until 7 June</p>
+        <ul>
+          <li>6 to 8 productive hours a day.</li>
+          <li>Shift more and more towards exam-style practice.</li>
+          <li>Measure progress in cases solved and how much better the answers get.</li>
+          <li>Rehearse the full eight days at least once before June.</li>
+        </ul>
+      </div>
+      <div class="pc" id="p3">
+        <h3>Every week</h3>
+        <p class="when">All the way through</p>
+        <ul>
+          <li>One full 5-hour exam under real conditions, graded.</li>
+          <li>Every mistake goes into the list below.</li>
+          <li>Study excellent answers and examiner feedback: what makes a 9 instead of a 6?</li>
+          <li>Talk to someone who did well, and sometimes to someone who needed a second try.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="care">Don’t trade sleep, exercise or your peace of mind for hours. Seven steady months beat a few exhausting weeks.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <h2>Mistakes I won’t make twice</h2>
+    <div class="mgrid">
+      <div>
+        <form class="mform" id="mf" autocomplete="off">
+          <div><label class="lab" for="mc">What kind</label>
+            <select id="mc"><option>Missed an issue</option><option>Forgot a provision</option><option>Other view not weighed</option><option>Ran out of time</option><option>Format and style</option></select></div>
+          <div><label class="lab" for="mtx">What exactly</label><input type="text" id="mtx" maxlength="200" placeholder="e.g. went to the merits before checking admissibility"></div>
+          <button type="submit" class="pri">Add</button>
+        </form>
+        <ul class="mlist" id="ml"></ul>
+      </div>
+      <div class="panel">
+        <h3 style="margin-top:0">Where the points go</h3>
+        <div id="mtal"></div>
+        <p id="mtop" class="small"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band verdict">
+  <div class="wrap vgrid">
+    <article class="doc" lang="de">
+      <p class="court">Landgericht Zuversicht</p>
+      <p class="az">Az.: 9 P 18/27</p>
+      <h2 class="vn">Im Namen des Volkes</h2>
+      <p class="ur">Urteil</p>
+      <p>In dem Rechtsstreit</p>
+      <p class="party">Lilian, Rechtsreferendarin,<span>– Klägerin –</span></p>
+      <p>gegen</p>
+      <p class="party">den gesamten Prüfungsstoff des Zweiten Juristischen Staatsexamens,<span>– Beklagter –</span></p>
+      <p>hat das Gericht für Recht erkannt:</p>
+      <ol class="tenor">
+        <li>Es wird festgestellt, dass die Klägerin das Examen mit mindestens 9 Punkten besteht.</li>
+        <li>Der Beklagte wird verurteilt, sich in acht Klausuren vollständig lösen zu lassen.</li>
+        <li>Die Kosten des Rechtsstreits trägt der Beklagte.</li>
+        <li>Das Urteil ist vorläufig vollstreckbar.</li>
+      </ol>
+      <p class="fn">Von der Darstellung des Tatbestandes wird gemäß § 313a Abs. 1 ZPO abgesehen. Ein Rechtsmittel ist unzweifelhaft nicht zulässig.</p>
+      <div class="sigrow">
+        <p class="sig">gez. Ojas</p>
+        <svg class="stamp" viewBox="0 0 160 160" aria-hidden="true">
+          <defs><path id="sp" d="M80,80 m-61,0 a61,61 0 1,1 122,0 a61,61 0 1,1 -122,0"/></defs>
+          <g fill="none" stroke="currentColor"><circle cx="80" cy="80" r="75" stroke-width="3"/><circle cx="80" cy="80" r="50" stroke-width="1.5"/></g>
+          <text fill="currentColor" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="12.5" letter-spacing="1"><textPath href="#sp" textLength="376" lengthAdjust="spacing">LANDGERICHT ZUVERSICHT • VORLÄUFIG VOLLSTRECKBAR •</textPath></text>
+          <text x="80" y="89" text-anchor="middle" fill="currentColor" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="46">9</text>
+          <text x="80" y="107" text-anchor="middle" fill="currentColor" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="12" letter-spacing="2">PUNKTE</text>
+        </svg>
+      </div>
+    </article>
+    <aside class="note">
+      <p class="hand">This will be fine Lili, you’ll do so well, I just know it. It’s all about collecting yourself.</p>
+      <p class="from">– Ojas</p>
+    </aside>
+  </div>
+</section>
+</main>
+
+<footer class="band foot">
+  <div class="wrap">
+    <p class="bye">Viel Erfolg, Lili.</p>
+    <p class="mut">Everything you enter is saved in this browser only.</p>
+    <details>
+      <summary>Back up or move your entries</summary>
+      <p class="mut">Copy this text and keep it somewhere safe. Paste it here on another device and press restore.</p>
+      <textarea id="bk" rows="4" aria-label="Backup text"></textarea>
+      <div class="acts"><button type="button" class="sec" id="bcopy">Copy backup</button><button type="button" class="sec" id="bres">Restore from text</button><span id="bmsg" class="mut" aria-live="polite"></span></div>
+    </details>
+  </div>
+</footer>
+
+<div class="toast" id="toast" hidden role="status"><span id="tmsg"></span><button type="button" id="tund">Undo</button></div>
+
+<script>
+{
+const KEY='lili-stex-v1',N=28,FULL=17;
+const START=new Date(2026,10,23);
+const EXAM=Date.UTC(2027,5,6,22,0,0);
+const FT=new Date(2027,2,15).getTime();
+const SK=['Z','Ö','S'];
+const SUB={'Z':'Zivilrecht','Ö':'Öffentliches Recht','S':'Strafrecht'};
+const TGT={'Z':50,'Ö':25,'S':25};
+const CATS=['Missed an issue','Forgot a provision','Other view not weighed','Ran out of time','Format and style'];
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const $=id=>document.getElementById(id);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let st={w:{},m:[]},prev=null,tt=0,lastCw=0,sel=1;
+
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clean=o=>{const w={},m=[];if(o&&typeof o==='object'){if(o.w&&typeof o.w==='object')for(const k of Object.keys(o.w)){const e=o.w[k],n=+k;if(Number.isInteger(n)&&n>=1&&n<=N&&e&&SK.includes(e.s)&&Number.isInteger(e.p)&&e.p>=0&&e.p<=18)w[n]={s:e.s,p:e.p,note:String(e.note||'').slice(0,140)}}if(Array.isArray(o.m))for(const x of o.m)if(x&&typeof x.t==='string'&&x.t.trim())m.push({id:String(x.id||Math.random().toString(36).slice(2)),c:CATS.includes(x.c)?x.c:CATS[0],t:x.t.slice(0,200),d:String(x.d||'').slice(0,12)})}return{w,m}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const load=()=>{try{const r=localStorage.getItem(KEY);if(r)st=clean(JSON.parse(r))}catch(e){}};
+const monday=n=>{const d=new Date(START);d.setDate(d.getDate()+7*(n-1));return d};
+const fmt=d=>`${d.getDate()} ${MON[d.getMonth()]}`;
+const curWeek=()=>{const t=new Date(),t0=new Date(t.getFullYear(),t.getMonth(),t.getDate());const diff=Math.round((t0-START)/864e5);return Math.min(N,Math.max(1,Math.floor(diff/7)+1))};
+const f1=x=>{const s=x.toFixed(1);return s.endsWith('.0')?s.slice(0,-2):s};
+
+const drawWeeks=()=>{const cw=curWeek();let lastM=-1;$('weeks').innerHTML=Array.from({length:N},(_,i)=>{const n=i+1,d=monday(n),e=st.w[n],m=d.getMonth(),first=m!==lastM;lastM=m;const fut=n>cw;const cls=['wk',n>=FULL?'ft':'',e?(e.p>=9?'hi':e.p>=4?'mid':'lo'):'',!e&&n<cw?'miss':'',fut?'fut':'',n===cw?'now':'',n===sel?'sel':''].filter(Boolean).join(' ');const al=`Week of ${fmt(d)}`+(e?`: ${e.p} points, ${SUB[e.s]}`:'');return `<button type="button" class="${cls}" data-w="${n}" aria-label="${al}" aria-pressed="${n===sel}"${fut?' disabled':''}><span class="d${first?' m':''}">${first?MON[m]:d.getDate()}</span>${e?`<b>${e.p}</b><i>${e.s}</i>`:''}</button>`}).join('')};
+
+const showPv=()=>{const v=+$('p').value;$('pv').textContent=`${v} ${v===1?'point':'points'}`;$('pv').className=v>=9?'hi':v>=4?'':'lo';$('p').style.setProperty('--f',`${v/18*100}%`)};
+
+const fillEd=()=>{const d=monday(sel),e=st.w[sel],cw=curWeek(),before=new Date()<START;const tag=before&&sel===1?' (starts tomorrow)':sel===cw?' (this week)':'';$('edh').textContent=`Week of Mon ${fmt(d)}${tag}`;$('edp').textContent=e?`Logged: ${e.p} points in ${SUB[e.s]}. Change it or remove it below.`:'One full 5-hour exam under real conditions, then get it graded.';const s=e?e.s:'Z';for(const r of document.querySelectorAll('input[name=s]'))r.checked=r.value===s;$('p').value=e?e.p:9;$('note').value=e?e.note:'';showPv();$('del').hidden=!e;$('save').textContent=e?'Update this exam':'Save this exam'};
+
+const drawStats=()=>{const cw=curWeek(),ks=Object.keys(st.w).map(Number).sort((a,b)=>a-b),es=ks.map(k=>st.w[k]),n=es.length;$('sth').textContent=`${n} of ${N} weekly exams written`;$('mt').style.width=`${n/N*100}%`;let h;if(!n)h='Nothing logged yet. After this week’s exam, pick the subject, set the points and save. Its square at the top fills in.';else{const avg=es.reduce((a,e)=>a+e.p,0)/n,l=es.slice(-4),l4=l.reduce((a,e)=>a+e.p,0)/l.length,best=Math.max(...es.map(e=>e.p)),rec=n>=4?l4:avg,gap=9-rec;h=`Average <b>${f1(avg)}</b> points`+(n>=4?`, last four <b>${f1(l4)}</b>`:'')+`, best <b>${best}</b>. `+(rec>=9?'That is Prädikat level. Keep it there.':`${f1(gap)} ${gap===1?'point':'points'} from 9 on recent form.`)}const miss=Array.from({length:Math.max(0,cw-1)},(_,i)=>i+1).filter(k=>!st.w[k]).length;if(miss)h+=` ${miss} earlier ${miss===1?'week has':'weeks have'} no exam yet.`;$('stx').innerHTML=h;const c={'Z':0,'Ö':0,'S':0};es.forEach(e=>c[e.s]++);$('mix').innerHTML=SK.map(k=>`<div class="mrow"><span>${SUB[k]}</span><span class="mbar"><span style="width:${n?c[k]/n*100:0}%"></span><i style="left:${TGT[k]}%"></i></span><span class="mn">${c[k]}</span></div>`).join('')};
+
+const drawMist=()=>{$('ml').innerHTML=st.m.length?st.m.slice().reverse().map(m=>`<li><span class="chip">${esc(m.c)}</span><span class="mtxt">${esc(m.t)}</span><span class="md">${esc(m.d)}</span><button type="button" class="x" data-id="${esc(m.id)}" aria-label="Delete this mistake">×</button></li>`).join(''):`<li class="empty">Nothing yet. After each graded exam, write down every slip: the issue you missed, the provision you forgot, the view you didn’t weigh, the clock.</li>`;const c={};CATS.forEach(k=>{c[k]=0});st.m.forEach(m=>{c[m.c]++});const mx=Math.max(1,...CATS.map(k=>c[k]));$('mtal').innerHTML=CATS.map(k=>`<div class="trow"><span>${k}</span><span class="mbar"><span style="width:${c[k]/mx*100}%"></span></span><span class="mn">${c[k]}</span></div>`).join('');const top=CATS.reduce((a,k)=>c[k]>c[a]?k:a,CATS[0]);$('mtop').innerHTML=st.m.length?`Most frequent: <b>${top}</b> (${c[top]}). Start there.`:'The tally fills in as you add mistakes.'};
+
+const bk=()=>{$('bk').value=JSON.stringify(st)};
+const commit=()=>{save();drawWeeks();fillEd();drawStats();drawMist();bk()};
+const toast=msg=>{$('tmsg').textContent=msg;$('toast').hidden=false;clearTimeout(tt);tt=setTimeout(()=>{$('toast').hidden=true},7000)};
+const remember=msg=>{prev=JSON.stringify(st);toast(msg)};
+const pop=n=>{if(reduce)return;const b=document.querySelector(`.wk[data-w="${n}"]`);if(b)b.classList.add('pop')};
+
+const tick=()=>{const ms=EXAM-Date.now();if(ms<=0){$('days').textContent='0';$('dl').textContent='days';$('rest').textContent='Exam time. You are ready.'}else{const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),mi=Math.floor(ms%36e5/6e4);$('days').textContent=d;$('dl').textContent=d===1?'day':'days';$('rest').textContent=`and ${h} h ${String(mi).padStart(2,'0')} min until the first exam`}const cw=curWeek();if(cw!==lastCw){lastCw=cw;drawWeeks();fillEd();drawStats()}};
+
+$('weeks').addEventListener('click',ev=>{const b=ev.target.closest('.wk');if(!b||b.disabled)return;sel=+b.dataset.w;drawWeeks();fillEd();if(innerWidth<720)$('ed').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});else{const t=document.querySelector(`.wk[data-w="${sel}"]`);if(t)t.focus({preventScroll:true})}});
+$('p').addEventListener('input',showPv);
+$('ed').addEventListener('submit',ev=>{ev.preventDefault();const r=document.querySelector('input[name=s]:checked');remember(st.w[sel]?'Exam updated':'Exam saved');st.w[sel]={s:r?r.value:'Z',p:+$('p').value,note:$('note').value.trim().slice(0,140)};commit();pop(sel)});
+$('del').addEventListener('click',()=>{if(!st.w[sel])return;remember('Exam removed');delete st.w[sel];commit()});
+$('mf').addEventListener('submit',ev=>{ev.preventDefault();const t=$('mtx').value.trim();if(!t)return;st.m.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),c:$('mc').value,t:t.slice(0,200),d:fmt(new Date())});$('mtx').value='';save();drawMist();bk();$('mtx').focus()});
+$('ml').addEventListener('click',ev=>{const b=ev.target.closest('.x');if(!b)return;remember('Mistake deleted');st.m=st.m.filter(m=>m.id!==b.dataset.id);commit()});
+$('tund').addEventListener('click',()=>{if(!prev)return;st=clean(JSON.parse(prev));prev=null;$('toast').hidden=true;commit()});
+$('bcopy').addEventListener('click',async()=>{bk();try{await navigator.clipboard.writeText($('bk').value);$('bmsg').textContent='Copied.'}catch(e){$('bk').select();$('bmsg').textContent='Select the text above and copy it.'}});
+$('bres').addEventListener('click',()=>{try{const o=JSON.parse($('bk').value);if(!o||typeof o!=='object'||typeof o.w!=='object')throw new Error('bad');remember('Entries restored');st=clean(o);commit();$('bmsg').textContent='Restored.'}catch(e){$('bmsg').textContent='That text isn’t a backup from this page.'}});
+
+const start=d=>{if(d&&d.w)st=clean(d);else load();sel=curWeek();const ph=$(Date.now()>=FT?'p2':'p1');if(ph)ph.classList.add('now');tick();drawMist();bk();setInterval(tick,20000);window.claude?.hot?.snapshot?.(()=>st)};
+window.claude?.hot?.ready?window.claude.hot.ready(start):start(window.claude?.hot?.data??{});
+}
+</script>
+</body>
+</html>

@@ -33,11 +33,11 @@ h2{font-size:clamp(26px,3vw,34px)}
 .big{font:700 clamp(72px,11vw,128px)/.85 "Barlow Condensed",sans-serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .unit{font:600 28px/1 "Barlow Condensed",sans-serif}
 .rest{margin:8px 0 0;color:rgba(255,255,255,.88)}
-.cal{--cols:30}
-.months,.notes{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));column-gap:clamp(2px,.45vw,6px)}
+.cal{--g:clamp(3px,.45vw,6px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px clamp(14px,1.8vw,26px);align-items:start}
+.months,.notes{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));column-gap:var(--g)}
 .months{margin-bottom:8px;font-size:13px;font-weight:600}
 .months span{white-space:nowrap}
-.days{display:grid;grid-template-rows:repeat(7,auto);grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:clamp(2px,.45vw,6px)}
+.days{display:grid;grid-template-rows:repeat(7,auto);grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:var(--g)}
 .days i{aspect-ratio:1;border-radius:clamp(2px,.35vw,5px);border:1.5px solid rgba(255,255,255,.32)}
 .days i.ft{background:rgba(255,255,255,.1)}
 .days i.past{background:rgba(255,255,255,.78);border-color:transparent}
@@ -48,6 +48,7 @@ h2{font-size:clamp(26px,3vw,34px)}
 .notes span{border-left:2px solid rgba(255,255,255,.6);padding-left:7px;line-height:1.3}
 .notes .end{border-left:0;border-right:2px solid var(--red);padding:0 7px 0 0;text-align:right}
 .tally{margin:22px 0 0;font:600 22px/1.2 "Barlow Condensed",sans-serif}
+.hint{font:400 15px/1.4 Barlow,sans-serif;color:rgba(255,255,255,.85);margin-left:6px}
 .exam{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:18px}
 .exl{font:600 22px/1 "Barlow Condensed",sans-serif}
 .exd{display:flex;gap:6px}
@@ -64,6 +65,7 @@ h2{font-size:clamp(26px,3vw,34px)}
 .care{background:var(--tint);border-radius:14px;padding:clamp(22px,3vw,32px)}
 .care p{margin:10px 0 0;font-size:17px}
 .care ul{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.care li{min-height:100%}
 .care li{background:light-dark(#fff,#10143a);border-radius:10px;padding:12px 14px;font-weight:600}
 .care li span{display:block;font-weight:400;color:var(--mut);font-size:14px}
 .fade{animation:fade .5s ease-out}
@@ -91,7 +93,8 @@ h2{font-size:clamp(26px,3vw,34px)}
 .bye{font:700 clamp(32px,4vw,44px)/1.05 "Barlow Condensed",sans-serif;margin:0}
 @media(max-width:860px){.today-band .wrap{grid-template-columns:1fr}}
 @media(max-width:719px){.vgrid{grid-template-columns:1fr}.doc{transform:none}}
-@media(max-width:600px){.head{grid-template-columns:1fr}.count{justify-items:start;text-align:left}.notes{font-size:13px}.care ul{grid-template-columns:1fr}}
+@media(max-width:600px){.head{grid-template-columns:1fr;margin-bottom:22px}.count{justify-items:start;text-align:left}.cal{grid-template-columns:1fr}.notes{font-size:13px}.hint{display:block;margin:6px 0 0}.exd{gap:5px}.exd span{width:34px;height:34px;font-size:17px}.care li{padding:11px 12px}.qrow .mut{font-size:14px}}
+@media(max-width:380px){.care ul{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.fade{animation:none}}
 </style>
 </head>
@@ -109,11 +112,10 @@ h2{font-size:clamp(26px,3vw,34px)}
       </div>
     </div>
     <div class="cal" role="img" aria-label="Calendar of every day from 22 November 2026 to 7 June 2027">
-      <div class="months" id="months"></div>
-      <div class="days" id="cal"></div>
-      <div class="notes" id="notes"></div>
+      <div><div class="months" id="mA"></div><div class="days" id="cA"></div><div class="notes" id="nA"></div></div>
+      <div><div class="months" id="mB"></div><div class="days" id="cB"></div><div class="notes" id="nB"></div></div>
     </div>
-    <p class="tally" id="tally">Day 1 of 197.</p>
+    <p class="tally"><span id="tally">Day 1 of 197.</span><span class="hint">Each square is a day. They fill in as they pass.</span></p>
     <div class="exam">
       <span class="exl">From 7 June</span>
       <div class="exd" role="img" aria-label="Eight exams: four Zivilrecht, two Öffentliches Recht, two Strafrecht"><span>Z</span><span>Z</span><span>Z</span><span>Z</span><span>Ö</span><span>Ö</span><span>S</span><span>S</span></div>
@@ -191,7 +193,6 @@ const GRID=new Date(2026,10,16);
 const EXAMDAY=new Date(2027,5,7);
 const FT=new Date(2027,2,15);
 const EXAM=Date.UTC(2027,5,6,22,0,0);
-const COLS=30;
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const NOTES=[
 'You’ve done harder things than this. The first state exam, for one.',
@@ -225,7 +226,7 @@ const diff=(a,b)=>Math.round((day0(a)-day0(b))/864e5);
 const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
 let qi=0;
 
-const drawCal=()=>{const t=new Date();let cells='',months='',lastM=-1;for(let c=0;c<COLS;c++){for(let r=0;r<7;r++){const d=addD(GRID,c*7+r);let cls='';if(d<START||d>EXAMDAY)cls='blank';else if(diff(d,EXAMDAY)===0)cls='xd';else if(diff(d,t)===0)cls='today';else if(d<day0(t))cls='past';else if(d>=FT)cls='ft';cells+=`<i class="${cls}"></i>`}const first=addD(GRID,c*7);const m=addD(first,6).getMonth();if(c===0){lastM=m}else if(m!==lastM){if(c<COLS-2)months+=`<span style="grid-column:${c+1}">${MON[m]}</span>`;lastM=m}}$('cal').innerHTML=cells;$('months').innerHTML=months;const ftc=Math.floor(diff(FT,GRID)/7);$('notes').innerHTML=`<span style="grid-column:${ftc+1}/span 6">Full-time from mid-March</span><span class="end" style="grid-column:${COLS-6}/span 7">First exam, 7 June</span>`;const total=diff(EXAMDAY,START),n=Math.max(0,diff(t,START))+1;$('tally').textContent=n>total?'It’s exam time. You’re ready.':`Day ${n} of ${total}.`};
+const drawCal=()=>{const t=new Date();['A','B'].forEach((k,bi)=>{const c0=bi*15;let cells='',months='',lastM=-1;for(let c=c0;c<c0+15;c++){for(let r=0;r<7;r++){const d=addD(GRID,c*7+r);let cls='';if(d<START||d>EXAMDAY)cls='blank';else if(diff(d,EXAMDAY)===0)cls='xd';else if(diff(d,t)===0)cls='today';else if(d<day0(t))cls='past';else if(d>=FT)cls='ft';cells+=`<i class="${cls}"></i>`}const m=addD(GRID,c*7+6).getMonth();if(m!==lastM){months+=`<span style="grid-column:${c-c0+1}">${MON[m]}</span>`;lastM=m}}$('c'+k).innerHTML=cells;$('m'+k).innerHTML=months});const ftc=Math.floor(diff(FT,GRID)/7)-15;$('nB').innerHTML=`<span style="grid-column:${ftc+1}/span 7">Full-time from mid-March</span><span class="end" style="grid-column:10/span 6">First exam, 7 June</span>`;const total=diff(EXAMDAY,START),n=Math.max(0,diff(t,START))+1;$('tally').textContent=n>total?'It’s exam time. You’re ready.':`Day ${n} of ${total}.`};
 
 const tick=()=>{const ms=EXAM-Date.now();if(ms<=0){$('days').textContent='0';$('dl').textContent='days';$('rest').textContent='Exam time. You’re ready.';return}const d=Math.floor(ms/864e5),h=Math.floor(ms%864e5/36e5),mi=Math.floor(ms%36e5/6e4);$('days').textContent=d;$('dl').textContent=d===1?'day':'days';$('rest').textContent=`and ${h} h ${String(mi).padStart(2,'0')} min until the first exam`};
 
